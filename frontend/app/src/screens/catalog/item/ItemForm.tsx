@@ -2,9 +2,10 @@ import z from 'zod';
 import { zBigDecimal } from '#/libs/zod-utils';
 import { useEffect } from 'react';
 import { ItemType, ItemTypeLabels } from '#/types/itemTypes';
-import { Form, FormContainer } from '#/ui/form/form';
+import { Formosa, FormContainer } from '#/ui/form/form';
 import { SchemaFormInput } from '#/ui/form/Input';
 import { SchemaFormDropdown } from '#/ui/form/Dropdown';
+import { currenciesEnum } from '#/libs/currency';
 
 interface ItemFormProps {
   value: ItemFormData;
@@ -19,15 +20,9 @@ export function ItemForm({ value, onChange, onValidation }: ItemFormProps) {
 
   return (
     <FormContainer width="500px">
-      <Form>
-        <SchemaFormInput
-          label="Name"
-          formSchema={ItemFormDataSchema}
-          field="name"
-          formValue={value}
-          onFormValueChange={onChange}
-        />
+      <Formosa>
         <SchemaFormDropdown
+          size={3}
           label="Type"
           options={ItemTypeLabels}
           formSchema={ItemFormDataSchema}
@@ -36,13 +31,15 @@ export function ItemForm({ value, onChange, onValidation }: ItemFormProps) {
           onFormValueChange={onChange}
         />
         <SchemaFormInput
-          label="Currency"
+          size={9}
+          label="Name"
           formSchema={ItemFormDataSchema}
-          field="currency"
+          field="name"
           formValue={value}
           onFormValueChange={onChange}
         />
         <SchemaFormInput
+          size={4}
           label="Unit Price"
           formSchema={ItemFormDataSchema}
           field="unitPrice"
@@ -50,13 +47,22 @@ export function ItemForm({ value, onChange, onValidation }: ItemFormProps) {
           onFormValueChange={onChange}
         />
         <SchemaFormInput
+          size={4}
           label="Unit"
           formSchema={ItemFormDataSchema}
           field="measureUnit"
           formValue={value}
           onFormValueChange={onChange}
         />
-      </Form>
+        <SchemaFormInput
+          size={4}
+          label="Currency"
+          formSchema={ItemFormDataSchema}
+          field="currency"
+          formValue={value}
+          onFormValueChange={onChange}
+        />
+      </Formosa>
     </FormContainer>
   )
 }
@@ -66,6 +72,6 @@ export const ItemFormDataSchema = z.object({
   type: z.enum(ItemType),
   measureUnit: z.string().min(1, "Measure unit is required"),
   unitPrice: zBigDecimal,
-  currency: z.string().min(1, "Currency is required"),
+  currency: z.enum(currenciesEnum),
 });
 export type ItemFormData = z.infer<typeof ItemFormDataSchema>;

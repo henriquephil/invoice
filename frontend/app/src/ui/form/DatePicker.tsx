@@ -77,9 +77,10 @@ export function DatePicker({ id, value, onChange, required, disabled }: DatePick
 export type FormDatePickerProps = {
   label: string;
   error?: string;
+  size?: number;
 } & DatePickerProps;
 
-export function FormDatePicker({ id, label, error, ...props }: FormDatePickerProps) {
+export function FormDatePicker({ id, label, error, size, ...props }: FormDatePickerProps) {
   const [touched, setTouched] = useState(false);
 
   const handleBlur = () => {
@@ -88,7 +89,7 @@ export function FormDatePicker({ id, label, error, ...props }: FormDatePickerPro
   };
 
   return (
-    <FormGroup>
+    <FormGroup size={size}>
       <Label htmlFor={id}>{label}</Label>
       <DatePicker id={id} onBlur={handleBlur} {...props}/>
       <ErrorLine>{touched && error}</ErrorLine>

@@ -1,0 +1,55 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "backend/**"
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+
+jobs:
+  build-and-push:
+    name: Build & Push ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [account, auth, catalog, gateway, invoice]
+
+    permissions:
+      id-token: write  # required for OIDC
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push image
+        working-directory: backend
+        run: |
+          IMAGE_URI=${{ env.ECR_REGISTRY }}/${{ matrix.service }}:${{ github.sha }}
+
+          docker build \
+            -f Dockerfile.${{ matrix.service }} \
+            -t $IMAGE_URI \
+            .
+
+          docker push $IMAGE_URI
+
+          # Also tag as latest
+          docker tag $IMAGE_URI ${{ env.ECR_REGISTRY }}/${{ matrix.service }}:latest
+          docker push ${{ env.ECR_REGISTRY }}/${{ matrix.service }}:latest
+
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
+        id: build

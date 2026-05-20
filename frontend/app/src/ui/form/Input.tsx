@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import z, { ZodEmail, ZodNumber } from "zod";
 
 export const InputBase = css`
+  height: 2.2rem;
   padding: 0.6rem;
   border: none;
   border-bottom: 1px solid var(--border-glass);
@@ -20,6 +21,17 @@ export const InputBase = css`
 
 const StyledInput = styled.input`
   ${InputBase}
+  padding: 0.6rem;
+  border: none;
+  border-bottom: 1px solid var(--border-glass);
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+  width: 100%;
+  &:focus,
+  &:hover {
+    outline: none;
+    border-color: var(--accent-primary);
+  }
 `;
 
 export type InputProps = {
@@ -28,7 +40,7 @@ export type InputProps = {
 
 export function Input({ onChange, ...props }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(e.target.value);
+    onChange?.(e.target.value);
   };
   return <StyledInput onChange={handleChange} {...props} />;
 }
@@ -39,12 +51,12 @@ export type FormInputProps = {
   size?: number;
 } & InputProps;
 
-export function FormInput({ id, label, error, size, ...props }: FormInputProps) {
+export function FormInput({ id, label, error, size, onBlur, ...props }: FormInputProps) {
   const [touched, setTouched] = useState(false);
 
-  const handleBlur = () => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setTouched(true);
-    props.onBlur?.({} as React.FocusEvent<HTMLInputElement>);
+    onBlur?.(e);
   };
 
   return (

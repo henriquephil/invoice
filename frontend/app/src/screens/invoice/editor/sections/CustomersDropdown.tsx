@@ -17,8 +17,9 @@ export function CustomersDropdown({ value, onChange, disabled }: CustomersDropdo
 
   return (
     <FormDropdown
+      size={8}
       id="customer"
-      label="Customer"
+      label="Bill to"
       options={customersOptions}
       value={value?.id || ""}
       onChange={onChange}

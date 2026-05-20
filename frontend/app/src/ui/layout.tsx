@@ -102,15 +102,16 @@ export const ActionButton = styled.button`
 export const SubtleLabel = styled.span`
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.1em; /* tracking-widest */
+  letter-spacing: 0.1em;
   opacity: 0.3;
-  font-weight: 700; /* font-bold */
+  font-weight: 700;
 `
 
 export const VStack = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* gap-2 */
+  gap: 0.5rem;
+  width: 100%;
 `
 
 export const LoadingContainer = styled.div`

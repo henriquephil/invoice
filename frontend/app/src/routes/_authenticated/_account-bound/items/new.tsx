@@ -14,10 +14,10 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const navigate = Route.useNavigate()
-  return <NewItemForm discard={() => navigate({ to: '..'})}/>
+  return <NewItemForm close={() => navigate({ to: '..'})}/>
 }
 
-function NewItemForm({ discard }: { discard: () => void }) {
+function NewItemForm({ close }: { close: () => void }) {
   const { createItemMutation } = useItemMutations()
   const [ request, setRequest ] = useState<ItemFormData>({
     name: '',
@@ -45,7 +45,7 @@ function NewItemForm({ discard }: { discard: () => void }) {
       <SecondaryPanelCardSection>
         <ButtonsContainer>
           <ActionButton onClick={() => save()}>Submit</ActionButton>
-          <ActionButton onClick={() => discard()}>Discard</ActionButton>
+          <ActionButton onClick={() => close()}>Discard</ActionButton>
         </ButtonsContainer>
       </SecondaryPanelCardSection>
     </SecondaryPanelCard>

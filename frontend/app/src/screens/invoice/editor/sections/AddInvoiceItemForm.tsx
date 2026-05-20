@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ActionButton, SubtleLabel } from "#/ui/layout";
 import type { CreateInvoiceItemRequest } from "../../../../api/invoiceDtos";
 import { useItemsQuery } from "#/queries/itemQuery";
-import { Form } from "#/ui/form/form";
+import { Formosa } from "#/ui/form/form";
 import { FormDropdown } from "#/ui/form/Dropdown";
 import { FormInput } from "#/ui/form/Input";
 
@@ -59,18 +59,17 @@ export function AddInvoiceItemForm({ save, onCancel }: AddInvoiceItemFormProps) 
 
   return (
     <ItemContainer>
-      <SubtleLabel>New Item</SubtleLabel>
-      <Form>
-        <FormDropdown id="itemId" label="Catalog Item" options={itemOptions} value={itemId} onChange={handleItemChange} required />
-        <FormInput id="quantity" label="Quantity" type="number" value={quantity.toString()} onChange={(val) => setQuantity(Number(val) || 0)} required />
-        <FormInput id="unitPrice" label="Unit Price" type="number" value={unitPrice.toString()} onChange={(val) => setUnitPrice(Number(val) || 0)} required />
+      <Formosa>
+        <FormDropdown id="itemId" label="Item" options={itemOptions} value={itemId} onChange={handleItemChange} size={8} />
+        <FormInput id="quantity" label="Quantity" type="number" value={quantity.toString()} onChange={(val) => setQuantity(Number(val) || 0)} size={2} />
+        <FormInput id="unitPrice" label="Unit Price" type="number" value={unitPrice.toString()} onChange={(val) => setUnitPrice(Number(val) || 0)} size={2} />
         <FormInput id="additionalInfo" label="Additional Info" value={additionalInfo} onChange={setAdditionalInfo} />
         
         <ButtonContainer>
           <ActionButton onClick={onCancel}>Cancel</ActionButton>
           <ActionButton onClick={handleSubmit}>Add item</ActionButton>
         </ButtonContainer>
-      </Form>
+      </Formosa>
     </ItemContainer>
   )
 }

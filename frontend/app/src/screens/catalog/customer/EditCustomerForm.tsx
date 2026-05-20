@@ -1,16 +1,17 @@
 import { useCustomerSuspenseQuery, useUpdateCustomerMutation } from "#/queries/customerQuery"
 import { useNavigate } from "@tanstack/react-router"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { CustomerForm, CustomerFormDataSchema, type CustomerFormData } from "./CustomerForm"
 import { getChangedValues } from "#/libs/object-utils"
 import { ActionButton, SecondaryPanelCard, SecondaryPanelCardHeader, SecondaryPanelCardSection } from "#/ui/layout"
 import { ButtonsContainer } from '#/ui/form/form'
 
 export default function EditCustomerForm({ customerId }: { customerId: string }) {
-  const { data: customer } = useCustomerSuspenseQuery(customerId)
+  const { data: { address, ...info } } = useCustomerSuspenseQuery(customerId)
+  const original = CustomerFormDataSchema.parse({ ...info, ...address })
+
   const updateCustomer = useUpdateCustomerMutation()
   const navigate = useNavigate()
-  const original = useMemo(() => CustomerFormDataSchema.parse(customer), [customer])
   const [ customerData, setCustomerData ] = useState<CustomerFormData>(original)
 
   const close = () => {

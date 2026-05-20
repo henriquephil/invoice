@@ -240,8 +240,8 @@ export default function InvoicePaper() {
               <DetailsLine>
                 <label>Address</label>
                 {/* TODO complement and neightborhood can be empty */}
-                <span>{`${invoice.address.street} ${invoice.address.number} ${invoice.address.complement}, ${invoice.address.neighborhood}`}<br/>
-                      {`${invoice.address.city}, ${invoice.address.state} ${invoice.address.zipCode}, ${invoice.address.country}`}</span>
+                <span>{invoice.address.number} {invoice.address.street} {invoice.address.complement}, {invoice.address.neighborhood}<br/>
+                      {invoice.address.city}, {invoice.address.state} {invoice.address.zipCode}, {invoice.address.country}</span>
               </DetailsLine>
             </DetailsPanel>
             <DetailsPanel>
@@ -259,7 +259,9 @@ export default function InvoicePaper() {
               </DetailsLine>
               <DetailsLine>
                 <label>Address</label>
-                <span>6500 River Place Blvd<br/>Austin, TX 78730, US</span>
+                <span>{invoice.customer?.address?.number} {invoice.customer?.address?.street} {invoice.customer?.address?.complement}, {invoice.customer?.address?.neighborhood}<br/>
+                      {invoice.customer?.address?.city}, {invoice.customer?.address?.state} {invoice.customer?.address?.zipCode}, {invoice.customer?.address?.country}
+                </span>
               </DetailsLine>
             </DetailsPanel>
 

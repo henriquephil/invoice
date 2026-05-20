@@ -1,6 +1,6 @@
 import z from "zod";
 import { useEffect } from "react";
-import { Form, FormContainer } from "#/ui/form/form";
+import { Divisor, Formosa, FormContainer } from "#/ui/form/form";
 import { SchemaFormInput } from "#/ui/form/Input";
 
 type CustomerFormProps = {
@@ -16,8 +16,9 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
 
   return (
     <FormContainer width="500px">
-      <Form>
+      <Formosa>
         <SchemaFormInput
+          size={8}
           label="Name"
           formSchema={CustomerFormDataSchema}
           field="name"
@@ -25,13 +26,7 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
-          label="Email"
-          formSchema={CustomerFormDataSchema}
-          field="email"
-          formValue={value}
-          onFormValueChange={onChange}
-        />
-        <SchemaFormInput
+          size={4}
           label="Document"
           formSchema={CustomerFormDataSchema}
           field="document"
@@ -39,13 +34,22 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
+          size={8}
+          label="Email"
+          formSchema={CustomerFormDataSchema}
+          field="email"
+          formValue={value}
+          onFormValueChange={onChange}
+        />
+        <SchemaFormInput
+          size={4}
           label="Phone"
           formSchema={CustomerFormDataSchema}
           field="phone"
           formValue={value}
           onFormValueChange={onChange}
         />
-        <span style={ { flexBasis: '100%' } }>Address</span>
+        <Divisor>Address</Divisor>
         <SchemaFormInput
           size={10}
           label="Street"
@@ -63,6 +67,7 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
+          size={6}
           label="Complement"
           formSchema={CustomerFormDataSchema}
           field="complement"
@@ -70,6 +75,7 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
+          size={6}
           label="Neighborhood"
           formSchema={CustomerFormDataSchema}
           field="neighborhood"
@@ -77,15 +83,7 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
-          size={10}
-          label="City"
-          formSchema={CustomerFormDataSchema}
-          field="city"
-          formValue={value}
-          onFormValueChange={onChange}
-        />
-        <SchemaFormInput
-          size={2}
+          size={3}
           label="State"
           formSchema={CustomerFormDataSchema}
           field="state"
@@ -93,7 +91,15 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
-          size={6}
+          size={9}
+          label="City"
+          formSchema={CustomerFormDataSchema}
+          field="city"
+          formValue={value}
+          onFormValueChange={onChange}
+        />
+        <SchemaFormInput
+          size={3}
           label="Zip Code"
           formSchema={CustomerFormDataSchema}
           field="zipCode"
@@ -101,14 +107,14 @@ export function CustomerForm({ value, onChange, onValidation }: CustomerFormProp
           onFormValueChange={onChange}
         />
         <SchemaFormInput
-          size={6}
+          size={9}
           label="Country"
           formSchema={CustomerFormDataSchema}
           field="country"
           formValue={value}
           onFormValueChange={onChange}
         />
-      </Form>
+      </Formosa>
     </FormContainer>
   );
 }

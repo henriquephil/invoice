@@ -12,22 +12,22 @@ import { CustomersDropdown } from './CustomersDropdown';
 import { InvoiceItemsList } from './InvoiceItemsList';
 import { AddInvoiceItemForm } from './AddInvoiceItemForm';
 import { useInvoiceEditor } from '../context/InvoiceEditorProvider';
-import { Form } from '#/ui/form/form';
+import { Formosa } from '#/ui/form/form';
 import { FormDatePicker } from '#/ui/form/DatePicker';
 
 const StatusContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem; /* gap-4 */
+  gap: 1rem;
 `;
 
 const StatusBadge = styled.span`
-  padding: 0.25rem 0.75rem; /* px-3 py-1 */
-  background-color: rgba(255, 255, 255, 0.05); /* bg-white/5 */
-  border-radius: 9999px; /* rounded-full */
-  font-size: 12px;
-  font-weight: 600; /* font-semibold */
-  color: rgba(255, 255, 255, 0.8); /* text-white/80 */
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
   letter-spacing: -0.025em;
 `;
@@ -41,20 +41,14 @@ const Info = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  gap: 2rem; /* gap-8 */
+  gap: 2rem;
   align-items: center;
 `;
 
 export default function DetailsPanel() {
-  const { invoice, isEditable, updateInvoiceField, addItem } = useInvoiceEditor();
-  const [isAddingItem, setIsAddingItem] = useState(false);
+  const { invoice, isEditable, updateInvoiceField } = useInvoiceEditor();
 
-  if (!invoice) return null; // Or a loading skeleton
-
-  const handleAddItem = (itemData: CreateInvoiceItemRequest) => {
-    addItem(itemData);
-    setIsAddingItem(false); // Close form on save
-  }
+  if (!invoice) return null;
   
   return (
     <PanelContainer flexBasis="600px">
@@ -70,13 +64,14 @@ export default function DetailsPanel() {
       </PanelHeaderContainer>
       <PanelContentContainer>
         <Info>All changes are saved automatically.</Info>
-        <Form>
-          <CustomersDropdown 
+        <Formosa>
+          <CustomersDropdown
             value={invoice.customer} 
             onChange={(customerId) => updateInvoiceField('customerId', customerId, { debounce: 0 })} 
             disabled={!isEditable} 
           />
           <FormDatePicker
+            size={4}
             id="dueDate" 
             label="Due date" 
             value={invoice.dueDate} 
@@ -85,15 +80,7 @@ export default function DetailsPanel() {
           />
           <InvoiceItemsList />
 
-          {isAddingItem ? (
-            <AddInvoiceItemForm save={handleAddItem} onCancel={() => setIsAddingItem(false)} />
-          ) : (
-            <ActionButton onClick={() => setIsAddingItem(true)} disabled={!isEditable}>
-              Add Item
-            </ActionButton>
-          )}
-
-        </Form>
+        </Formosa>
       </PanelContentContainer>
     </PanelContainer>
   )

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ActionButton, SubtleLabel } from "#/ui/layout";
 import type { UpdateInvoiceItemRequest } from "../../../../api/invoiceDtos";
 import type { InvoiceItem } from "#/types/invoiceTypes";
-import { Form } from "#/ui/form/form";
+import { Formosa } from "#/ui/form/form";
 import { FormInput } from "#/ui/form/Input";
 
 const ItemContainer = styled.div`
@@ -40,7 +40,7 @@ export function EditInvoiceItemForm({ value, save, onCancel }: EditInvoiceItemFo
   return (
     <ItemContainer>
       <SubtleLabel>Edit Item: {value.item.name}</SubtleLabel>
-      <Form>
+      <Formosa>
         <FormInput id="quantity" label="Quantity" type="number" value={invoiceItem.quantity?.toString()} onChange={(val) => handleChange('quantity', Number(val) || 0)} />
         <FormInput id="unitPrice" label="Unit Price" type="number" value={invoiceItem.unitPrice?.toString()} onChange={(val) => handleChange('unitPrice', Number(val) || 0)} />
         <FormInput id="additionalInfo" label="Additional Info" value={invoiceItem.additionalInfo} onChange={(val) => handleChange('additionalInfo', val)} />
@@ -49,7 +49,7 @@ export function EditInvoiceItemForm({ value, save, onCancel }: EditInvoiceItemFo
           <ActionButton onClick={onCancel}>Cancel</ActionButton>
           <ActionButton onClick={() => save(invoiceItem)}>Update Item</ActionButton>
         </ButtonContainer>
-      </Form>
+      </Formosa>
     </ItemContainer>
   )
 }

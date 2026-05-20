@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
-import type { UpdateInvoiceItemRequest } from "../../../../api/invoiceDtos";
-import { SubtleLabel, VStack } from "#/ui/layout";
+import type { CreateInvoiceItemRequest, UpdateInvoiceItemRequest } from "../../../../api/invoiceDtos";
+import { ActionButton, VStack } from "#/ui/layout";
 import { EditInvoiceItemForm } from "./EditInvoiceItemForm";
 import { useInvoiceEditor } from "../context/InvoiceEditorProvider";
 import type { InvoiceItem } from "#/types/invoiceTypes";
+import { AddInvoiceItemForm } from "#/screens/invoice/editor/sections/AddInvoiceItemForm";
+import { Divisor } from "#/ui/form/form";
 
 const DeleteButton = styled.button<{ isVisible: boolean }>`
   position: absolute;
@@ -42,7 +44,9 @@ const EditButton = styled.button<{ isVisible: boolean }>`
 const ItemContainer = styled.div`
   position: relative;
   padding: 0.5rem;
-  border-bottom: 1px solid var(--border-glass);
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-glass);
+  }
 `;
 
 const ItemRow = styled.div`
@@ -111,17 +115,33 @@ function InvoiceItemComponent({ item }: { item: InvoiceItem }) {
 }
 
 export function InvoiceItemsList() {
-  const { invoice } = useInvoiceEditor();
+  const { invoice, isEditable, addItem } = useInvoiceEditor();
+
+  const [isAddingItem, setIsAddingItem] = useState(false);
+  
   if (!invoice) return null;
 
+  const handleAddItem = (itemData: CreateInvoiceItemRequest) => {
+    addItem(itemData);
+    setIsAddingItem(false);
+  }
+  
   return (
-    <>
-      <SubtleLabel>Items</SubtleLabel>
+    <VStack>
+      <Divisor>Items</Divisor>
       <VStack>
         {invoice.items.map((item) => (
           <InvoiceItemComponent key={item.id} item={item} />
         ))}
       </VStack>
-    </>
+
+      {isAddingItem ? (
+        <AddInvoiceItemForm save={handleAddItem} onCancel={() => setIsAddingItem(false)} />
+      ) : (
+        <ActionButton onClick={() => setIsAddingItem(true)} disabled={!isEditable}>
+          Add Item
+        </ActionButton>
+      )}
+    </VStack>
   );
 }

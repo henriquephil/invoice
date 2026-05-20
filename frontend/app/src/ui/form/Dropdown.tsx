@@ -75,11 +75,12 @@ export function Dropdown({ id, options, value, onChange, onBlur, disabled, place
 
 
 export type FormDropdownProps = {
+  size?: number;
   label: string;
   error?: string;
 } & DropdownProps;
 
-export function FormDropdown({ id, label, error, ...props }: FormDropdownProps) {
+export function FormDropdown({ id, label, error, size, ...props }: FormDropdownProps) {
   const [touched, setTouched] = useState(false);
 
   const handleBlur = () => {
@@ -88,7 +89,7 @@ export function FormDropdown({ id, label, error, ...props }: FormDropdownProps) 
   };
 
   return (
-    <FormGroup>
+    <FormGroup size={size}>
       <Label htmlFor={id}>{label}</Label>
       <Dropdown id={id} onBlur={handleBlur} {...props} />
       <ErrorLine>{touched && error}</ErrorLine>
@@ -119,7 +120,8 @@ export function SchemaFormDropdown<T extends z.ZodObject<any>, O extends string>
   options,
   placeholder,
   required,
-  disabled
+  disabled,
+  size
 }: SchemaFormDropdownProps<T, O>) {
   const value = formValue[field];
 
@@ -137,6 +139,7 @@ export function SchemaFormDropdown<T extends z.ZodObject<any>, O extends string>
       required={required}
       disabled={disabled}
       placeholder={placeholder}
+      size={size}
     />
   )
 }
