@@ -42,15 +42,12 @@ jobs:
           IMAGE_URI=${{ env.ECR_REGISTRY }}/${{ matrix.service }}:${{ github.sha }}
 
           docker build \
-            -f Dockerfile.${{ matrix.service }} \
+            --build-arg SERVICE=${{ matrix.service }} \
             -t $IMAGE_URI \
             .
 
           docker push $IMAGE_URI
 
-          # Also tag as latest
           docker tag $IMAGE_URI ${{ env.ECR_REGISTRY }}/${{ matrix.service }}:latest
           docker push ${{ env.ECR_REGISTRY }}/${{ matrix.service }}:latest
-
-          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
         id: build
