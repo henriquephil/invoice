@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar.Companion.shadowJar
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
@@ -6,6 +8,13 @@ plugins {
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
+}
+
+tasks.shadowJar {
+    mergeServiceFiles {
+        include("META-INF/services/org.flywaydb.core.extensibility.Plugin")
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
 }
 
 kotlin {

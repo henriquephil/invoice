@@ -7,8 +7,4 @@ plugins {
 subprojects {
     group = "dev.hphil.invoice"
     version = "0.0.1"
-
-    configurations.all {
-        exclude(group = "io.ktor", module = "ktor-server-config-yaml")
-    }
 }
