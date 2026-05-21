@@ -23,7 +23,6 @@ dependencies {
     api(libs.ktor.server.cors)
     api(libs.ktor.server.netty)
     api(libs.logback.classic)
-    api(libs.ktor.server.config.yaml)
 
     api(libs.opentelemetry.sdk.extension.autoconfigure)
     api(libs.opentelemetry.semconv)
