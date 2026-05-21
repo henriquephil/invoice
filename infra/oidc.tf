@@ -66,6 +66,15 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           aws_s3_bucket.frontend.arn,
           "${aws_s3_bucket.frontend.arn}/*"
         ]
+      },
+      {
+        Sid    = "ECS"
+        Effect = "Allow"
+        Action = [
+          "ecs:UpdateService",
+          "ecs:DescribeServices"
+        ]
+        Resource = "*"
       }
     ]
   })

@@ -51,3 +51,11 @@ jobs:
           docker tag $IMAGE_URI ${{ env.ECR_REGISTRY }}/${{ matrix.service }}:latest
           docker push ${{ env.ECR_REGISTRY }}/${{ matrix.service }}:latest
         id: build
+
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service \
+            --cluster henriquephil-invoice \
+            --service ${{ matrix.service }} \
+            --force-new-deployment \
+            --region us-east-1
