@@ -9,8 +9,8 @@ resource "aws_ssm_parameter" "environment" {
   value = "prod"
 }
 
-resource "aws_ssm_parameter" "database_jdbc_base_url" {
-  name  = "${local.ssm_prefix}/database/jdbc_base_url"
+resource "aws_ssm_parameter" "database_jdbc_url" {
+  name  = "${local.ssm_prefix}/database/jdbc_url"
   type  = "String"
   value = "placeholder"
 
