@@ -31,7 +31,9 @@ fun Application.module() {
     configureSessionUserAuthentication() // 3
 
     routing {
-        authRoutes()
-        proxyRoutes()
+        route("api") {
+            authRoutes()
+            proxyRoutes()
+        }
     }
 }
