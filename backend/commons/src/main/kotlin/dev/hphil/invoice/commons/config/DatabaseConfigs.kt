@@ -12,11 +12,8 @@ import javax.sql.DataSource
 fun Application.configureDatabase() {
     log.info("Configuring database")
     val dataSource = dataSource(environment.config)
-    val serviceName = environment.config.property("name").getString()
     Flyway.configure()
         .dataSource(dataSource)
-        .schemas(serviceName)
-        .defaultSchema(serviceName)
         .outOfOrder(true)
         .validateOnMigrate(true)
         .baselineOnMigrate(true)
@@ -29,7 +26,7 @@ private fun dataSource(config: ApplicationConfig): DataSource {
     val prefix = "database"
     val serviceName = config.property("name").getString()
     val hikariConfig = HikariConfig().apply {
-        jdbcUrl = config.property("$prefix.jdbcUrl").getString() + "&currentSchema=$serviceName"
+        jdbcUrl = config.property("$prefix.jdbcUrl").getString()
         username = config.property("$prefix.username").getString()
         password = config.property("$prefix.password").getString()
         driverClassName = config.property("$prefix.driverClassName").getString()
@@ -39,6 +36,9 @@ private fun dataSource(config: ApplicationConfig): DataSource {
         isAutoCommit = config.property("$prefix.isAutoCommit").getString().toBoolean()
 
         transactionIsolation = config.property("$prefix.transactionIsolation").getString()
+
+        schema = serviceName
+        connectionInitSql = "SET search_path TO $serviceName"
 
         validate()
     }
