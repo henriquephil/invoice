@@ -5,13 +5,13 @@ locals {
   # Environment variables common to all services
   common_environment = [
     { name = "ENVIRONMENT", value = "prod" },
-    { name = "SERVICES_AUTH_DOMAIN",    value = "auth.invoice.local" },
+    { name = "SERVICES_AUTH_DOMAIN",    value = "http://auth.invoice.local" },
     { name = "SERVICES_AUTH_PORT",      value = "8080" },
-    { name = "SERVICES_ACCOUNT_DOMAIN", value = "account.invoice.local" },
+    { name = "SERVICES_ACCOUNT_DOMAIN", value = "http://account.invoice.local" },
     { name = "SERVICES_ACCOUNT_PORT",   value = "8080" },
-    { name = "SERVICES_CATALOG_DOMAIN", value = "catalog.invoice.local" },
+    { name = "SERVICES_CATALOG_DOMAIN", value = "http://catalog.invoice.local" },
     { name = "SERVICES_CATALOG_PORT",   value = "8080" },
-    { name = "SERVICES_INVOICE_DOMAIN", value = "invoice.invoice.local" },
+    { name = "SERVICES_INVOICE_DOMAIN", value = "http://invoice.invoice.local" },
     { name = "SERVICES_INVOICE_PORT",   value = "8080" },
     { name = "SERVICES_GATEWAY_PORT",   value = "8080" },
     { name = "DATABASE_DRIVER_CLASS_NAME",       value = "org.postgresql.Driver" },

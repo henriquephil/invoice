@@ -27,7 +27,7 @@ private fun dataSource(config: ApplicationConfig): DataSource {
     val prefix = "database"
     val serviceName = config.property("name").getString()
     val hikariConfig = HikariConfig().apply {
-        jdbcUrl = config.property("$prefix.jdbcUrl").getString()
+        jdbcUrl = config.property("$prefix.jdbcUrl").getString() + "&currentSchema=$serviceName"
         username = config.property("$prefix.username").getString()
         password = config.property("$prefix.password").getString()
         driverClassName = config.property("$prefix.driverClassName").getString()
@@ -37,8 +37,6 @@ private fun dataSource(config: ApplicationConfig): DataSource {
         isAutoCommit = config.property("$prefix.isAutoCommit").getString().toBoolean()
 
         transactionIsolation = config.property("$prefix.transactionIsolation").getString()
-
-        schema = serviceName
 
         validate()
     }
