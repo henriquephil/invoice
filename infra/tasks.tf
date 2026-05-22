@@ -18,7 +18,6 @@ locals {
     { name = "DATABASE_MAXIMUM_POOL_SIZE",        value = "10" },
     { name = "DATABASE_MINIMUM_IDLE",             value = "2" },
     { name = "DATABASE_AUTO_COMMIT",              value = "false" },
-    { name = "DATABASE_TRANSACTION_ISOLATION",    value = "TRANSACTION_REPEATABLE_READ" },
     { name = "DATABASE_JDBC_URL", value = "jdbc:postgresql://ep-polished-sound-aqmv43fn-pooler.c-8.us-east-1.aws.neon.tech:5432/neondb?sslmode=require" },
   ]
 

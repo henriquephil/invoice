@@ -41,12 +41,6 @@ resource "aws_ssm_parameter" "database_auto_commit" {
   value = "false"
 }
 
-resource "aws_ssm_parameter" "database_transaction_isolation" {
-  name  = "${local.ssm_prefix}/database/transaction_isolation"
-  type  = "String"
-  value = "TRANSACTION_REPEATABLE_READ"
-}
-
 resource "aws_ssm_parameter" "redis_ssl" {
   name  = "${local.ssm_prefix}/redis/ssl"
   type  = "String"
