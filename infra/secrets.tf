@@ -110,3 +110,22 @@ resource "aws_secretsmanager_secret" "auth_user_client_secret" {
   name                    = "${local.ssm_prefix}/auth/user_client_secret"
   recovery_window_in_days = 0
 }
+
+
+# ── Grafana Open Telemetry ------------───────────────────────
+resource "aws_ssm_parameter" "otel_endpoint" {
+  name  = "${local.ssm_prefix}/otel/endpoint"
+  type  = "String"
+  value = "https://otlp-gateway-prod-us-east-3.grafana.net/otlp"
+}
+
+resource "aws_ssm_parameter" "otel_protocol" {
+  name  = "${local.ssm_prefix}/otel/protocol"
+  type  = "String"
+  value = "http/protobuf"
+}
+
+resource "aws_secretsmanager_secret" "otel_token" {
+  name                    = "${local.ssm_prefix}/otel/token"
+  recovery_window_in_days = 0
+}

@@ -19,6 +19,13 @@ locals {
     { name = "DATABASE_MINIMUM_IDLE",             value = "2" },
     { name = "DATABASE_AUTO_COMMIT",              value = "false" },
     { name = "DATABASE_JDBC_URL", value = "jdbc:postgresql://ep-polished-sound-aqmv43fn-pooler.c-8.us-east-1.aws.neon.tech:5432/neondb?sslmode=require" },
+    { name = "OTEL_TRACES_EXPORTER",        value = "otlp" },
+    { name = "OTEL_EXPORTER_OTLP_ENDPOINT", value = "https://otlp-gateway-prod-us-east-3.grafana.net/otlp" },
+    { name = "OTEL_EXPORTER_OTLP_PROTOCOL", value = "http/protobuf" },
+  ]
+
+  common_secrets = [
+    { name = "OTEL_EXPORTER_OTLP_HEADERS", valueFrom = "arn:aws:secretsmanager:us-east-1:${local.account_id}:secret:/invoice/prod/otel/token" },
   ]
 
   # Secrets common to all services that use the database
@@ -51,23 +58,23 @@ locals {
   service_config = {
     gateway = {
       environment = concat(local.common_environment, local.redis_environment)
-      secrets     = concat(local.auth_service_secrets, local.auth_user_secrets, local.redis_secrets)
+      secrets     = concat(local.common_secrets, local.auth_service_secrets, local.auth_user_secrets, local.redis_secrets)
     }
     auth = {
       environment = local.common_environment
-      secrets     = concat(local.db_secrets, local.auth_user_secrets)
+      secrets     = concat(local.common_secrets, local.db_secrets, local.auth_user_secrets)
     }
     account = {
       environment = local.common_environment
-      secrets     = concat(local.db_secrets, local.auth_service_secrets)
+      secrets     = concat(local.common_secrets, local.db_secrets, local.auth_service_secrets)
     }
     catalog = {
       environment = local.common_environment
-      secrets     = concat(local.db_secrets, local.auth_service_secrets)
+      secrets     = concat(local.common_secrets, local.db_secrets, local.auth_service_secrets)
     }
     invoice = {
       environment = local.common_environment
-      secrets     = concat(local.db_secrets, local.auth_service_secrets)
+      secrets     = concat(local.common_secrets, local.db_secrets, local.auth_service_secrets)
     }
   }
 }
