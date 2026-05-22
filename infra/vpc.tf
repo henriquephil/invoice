@@ -95,17 +95,10 @@ resource "aws_security_group" "gateway" {
   tags = { Name = "${var.github_repo}-gateway-sg" }
 }
 
-# Internal services — accept 8080 only from gateway
+# Internal services — no inline ingress rules (managed via aws_security_group_rule)
 resource "aws_security_group" "internal" {
   name   = "${var.github_repo}-internal-sg"
   vpc_id = aws_vpc.main.id
-
-  ingress {
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    security_groups = [aws_security_group.gateway.id]
-  }
 
   egress {
     from_port   = 0
@@ -117,6 +110,18 @@ resource "aws_security_group" "internal" {
   tags = { Name = "${var.github_repo}-internal-sg" }
 }
 
+# Accepts 8080 from gateway
+resource "aws_security_group_rule" "internal_from_gateway" {
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.internal.id
+  source_security_group_id = aws_security_group.gateway.id
+  description              = "Allow traffic from gateway"
+}
+
+# Accepts 8080 from itself (inter-service communication)
 resource "aws_security_group_rule" "internal_self" {
   type                     = "ingress"
   from_port                = 8080

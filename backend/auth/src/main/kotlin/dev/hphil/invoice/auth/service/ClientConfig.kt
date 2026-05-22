@@ -9,7 +9,7 @@ private val clientConfigMap = listOf(
         registerable = true,
         grantConfigs = listOf(
             AccessRefreshTokenGrantConfig(
-                accessTokenExpirationMinutes = 5L,
+                accessTokenExpirationMinutes = 15L,
                 refreshTokenValidityDays = 30L
             )
         )
