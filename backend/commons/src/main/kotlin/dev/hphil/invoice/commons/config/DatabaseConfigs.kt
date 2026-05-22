@@ -5,7 +5,6 @@ import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.Application
 import io.ktor.server.application.log
 import io.ktor.server.config.ApplicationConfig
-import io.ktor.server.plugins.di.dependencies
 import org.flywaydb.core.Flyway
 import org.jetbrains.exposed.v1.jdbc.Database
 import javax.sql.DataSource
@@ -13,8 +12,11 @@ import javax.sql.DataSource
 fun Application.configureDatabase() {
     log.info("Configuring database")
     val dataSource = dataSource(environment.config)
+    val serviceName = environment.config.property("name").getString()
     Flyway.configure()
         .dataSource(dataSource)
+        .schemas(serviceName)
+        .defaultSchema(serviceName)
         .outOfOrder(true)
         .validateOnMigrate(true)
         .baselineOnMigrate(true)
